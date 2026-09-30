@@ -11,6 +11,7 @@
 <meta http-equiv="Expires" content="0">
 
     <title>CHOPPA // @vadikwasd — Cybersecurity Student</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2306080d'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='monospace' font-size='26' font-weight='700' fill='%2367e8f9'%3E%26gt%3B_%3C/text%3E%3C/svg%3E" />
     <meta
       name="description"
       content="Portfolio of Choppa (vadikwasd), a cybersecurity student focused on Linux, networking, programming and information security."
@@ -345,7 +346,12 @@
         height: 100%;
         object-fit: cover;
         display: block;
+        transition: transform 0.35s ease, filter 0.35s ease;
       }
+      .av:hover .pic img { transform: scale(1.045); filter: brightness(1.06) saturate(1.08); }
+      .av:hover .pic { box-shadow: 0 0 48px var(--p), 0 0 135px rgba(var(--ar),.72), inset 0 0 40px rgba(var(--ar),.5); }
+      .av:hover .ring { animation-duration: 9s; border-color: rgba(var(--br),.85); }
+      .av:hover .r2 { animation-duration: 5.5s; border-color: rgba(var(--ar),.9); }
       @keyframes pulse {
         50% {
           box-shadow:
@@ -430,7 +436,12 @@
         inset: 0;
         display: grid;
         place-items: center;
-        font: 600 15px var(--mono);
+        font: 600 11px var(--mono);
+        color: var(--c);
+        border: 1px solid var(--ln);
+        border-radius: 50%;
+        background: rgba(var(--ar),.08);
+        box-shadow: 0 0 18px rgba(var(--ar),.2);
       }
       .mk {
         font: 600 11px var(--mono);
@@ -663,7 +674,7 @@
       <nav id="nav" aria-label="Sections"></nav>
     </header>
     <main id="main"></main>
-    <footer><span>© Choppa</span><span>@vadikwasd</span></footer>
+    <footer><span>© 2026 CHOPPA</span><span>Built with HTML, CSS &amp; JavaScript</span></footer>
     <div id="toast" role="status"></div>
     <script>
       /* ============ EDIT ME: all site content lives in CONFIG ============ */
@@ -677,132 +688,47 @@
           avatar: "avatar.jpg",
         }, // put avatar.jpg next to this file (or change the path); a generated placeholder shows if missing
         about: {
+          intro: "I'm a third-year Cybersecurity student interested in web and network security, Linux, cryptography and OSINT. I enjoy exploring new technologies, understanding how systems work and continuously expanding my practical knowledge.",
           edu: {
             school: "West Ukrainian National University",
             alt: "Західноукраїнський національний університет (ZUNU)",
             field: "Cybersecurity",
-            level: "Bachelor's degree",
+            level: "Bachelor's degree · 3rd year",
           },
-          learning: [
-            "Cybersecurity",
-            "Python",
-            "Linux",
-            "Networking",
-            "Web Security",
-            "Cryptography",
-            "System Administration",
-          ],
-          worked: [
-            "HTML",
-            "CSS",
-            "JavaScript",
-            "Python",
-            "Linux",
-            "Windows",
-            "Git/GitHub",
-            "Basic networking concepts",
-            "Cryptography concepts",
-            "Hamming codes",
-          ],
+          learning: ["Web Security", "Network Security", "Linux", "Cryptography", "OSINT", "Cybersecurity"],
+          worked: ["HTML", "CSS", "JavaScript", "C++", "Python", "Windows", "Arch Linux", "Git/GitHub", "Networking"],
           hands: [
-  "Linux System Configuration",
-  "Dual-Boot Environment Management",
-  "Hardware & Software Troubleshooting",
-  "Network Configuration & Diagnostics",
-  "Cybersecurity Labs & CTF Challenges",
-  "Git & GitHub Workflow",
-],
+            "Windows 11 administration and troubleshooting",
+            "Arch Linux setup and daily use",
+            "Network traffic analysis with Wireshark",
+            "Nmap scanning and network reconnaissance",
+            "Cybersecurity labs, TryHackMe and Hack The Box",
+            "Cisco Packet Tracer university labs",
+          ],
         },
-        // p = visual estimate (0-100), not a formal test result
+        // level = self-assessed experience from current hands-on use
         skills: [
-          {
-            n: "Python",
-            k: "PY",
-            p: 60,
-            d: "Currently learning and using for programming and cybersecurity-related tasks.",
-          },
-          {
-            n: "HTML/CSS",
-            k: "WEB",
-            p: 70,
-            d: "Used to build web pages and interfaces, including this portfolio.",
-          },
-          {
-            n: "JavaScript",
-            k: "JS",
-            p: 45,
-            d: "Adding interactivity to web projects; still building depth.",
-          },
-          {
-            n: "C/C++",
-            k: "C",
-            p: 30,
-            d: "Foundational knowledge of systems-level programming; still early on.",
-          },
-          {
-            n: "Bash",
-            k: "SH",
-            p: 35,
-            d: "Learning shell scripting while working with Linux.",
-          },
-          {
-            n: "SQL",
-            k: "DB",
-            p: 30,
-            d: "Early-stage familiarity with databases and queries.",
-          },
+          { n:"Windows", k:"WIN", level:"ADVANCED", d:"My strongest environment: daily use, configuration and troubleshooting." },
+          { n:"HTML", k:"HTML", level:"CONFIDENT", d:"Building and structuring web pages, including this portfolio." },
+          { n:"CSS", k:"CSS", level:"CONFIDENT", d:"Responsive layouts, styling, animations and interface design." },
+          { n:"JavaScript", k:"JS", level:"CONFIDENT", d:"Creating interactive front-end functionality and working with the DOM." },
+          { n:"C++", k:"C++", level:"CONFIDENT", d:"Programming experience from study and practical tasks." },
+          { n:"Python", k:"PY", level:"INTERMEDIATE", d:"Used for programming, university work and cybersecurity-related tasks." },
+          { n:"Bash / Shell", k:"SH", level:"INTERMEDIATE", d:"Command-line work and scripting in Linux environments." },
+          { n:"Git / GitHub", k:"GIT", level:"INTERMEDIATE", d:"Version control, repositories, commits, branches and GitHub Pages workflow." },
+          { n:"Networking", k:"NET", level:"INTERMEDIATE", d:"TCP/IP fundamentals, diagnostics and university networking labs." },
+          { n:"Linux", k:"LNX", level:"BASIC", d:"Arch Linux is my preferred Linux environment; still expanding system knowledge." },
+          { n:"C", k:"C", level:"BASIC", d:"Foundational knowledge from programming coursework." },
+          { n:"SQL", k:"SQL", level:"BASIC", d:"Basic queries and database concepts, with exposure through security labs." },
         ],
         // status: LEARNING | PRACTICING | FAMILIAR
         cyber: [
-          {
-            i: ">_",
-            t: "Linux",
-            items: [
-              ["Arch Linux", "PRACTICING"],
-              ["Linux command line", "LEARNING"],
-              ["Package management", "LEARNING"],
-              ["System configuration", "LEARNING"],
-            ],
-          },
-          {
-            i: "⇄",
-            t: "Networking",
-            items: [
-              ["Networking fundamentals", "FAMILIAR"],
-              ["TCP/IP", "LEARNING"],
-              ["Network troubleshooting", "LEARNING"],
-              ["Cisco-related learning", "PRACTICING"],
-            ],
-          },
-          {
-            i: "◈",
-            t: "Cybersecurity",
-            items: [
-              ["Information security", "LEARNING"],
-              ["Web security", "LEARNING"],
-              ["System security", "LEARNING"],
-              ["Security fundamentals", "FAMILIAR"],
-            ],
-          },
-          {
-            i: "∑",
-            t: "Cryptography",
-            items: [
-              ["Cryptographic concepts", "FAMILIAR"],
-              ["Discrete logarithms", "FAMILIAR"],
-              ["Hamming codes", "FAMILIAR"],
-              ["Coding theory", "LEARNING"],
-            ],
-          },
-          {
-            i: "⚑",
-            t: "Practical Learning",
-            items: [
-              ["TryHackMe", "LEARNING"],
-              ["Security labs", "LEARNING"],
-              ["CTF-style learning", "LEARNING"],
-            ],
-          },
+          { i:"◉", t:"Network Analysis", items:[["Wireshark traffic analysis","PRACTICING"],["TCP / UDP","FAMILIAR"],["DNS analysis","FAMILIAR"],["HTTP traffic analysis","FAMILIAR"]] },
+          { i:"⇄", t:"Recon & Networking", items:[["Nmap port scanning","PRACTICING"],["Service / version detection","PRACTICING"],["Cisco Packet Tracer","PRACTICING"],["Network fundamentals","FAMILIAR"]] },
+          { i:"</>", t:"Web Security", items:[["HTTP / HTTPS","FAMILIAR"],["Cookies & sessions","FAMILIAR"],["SQLMap labs","PRACTICING"],["Web security","LEARNING"]] },
+          { i:">_", t:"Linux & Labs", items:[["Arch Linux","PRACTICING"],["Kali Linux experience","FAMILIAR"],["Ubuntu experience","FAMILIAR"],["Virtual machines","PRACTICING"]] },
+          { i:"⚑", t:"Security Practice", items:[["TryHackMe ethical hacking rooms","PRACTICING"],["Hack The Box","LEARNING"],["Metasploit basics","FAMILIAR"],["Brute-force university lab","FAMILIAR"]] },
+          { i:"∑", t:"Cryptography & OSINT", items:[["AES","FAMILIAR"],["Cryptography fundamentals","LEARNING"],["OSINT","LEARNING"],["Security research","LEARNING"]] },
         ],
         // gh/demo: replace YOUR_* with real URLs; placeholders stay inert. Remove demo to hide the button.
         projects: [
@@ -852,15 +778,15 @@
           },
         ],
         socials: [
-  { n: "Telegram", k: '<i class="fa-brands fa-telegram"></i>', u: "https://t.me/chopp1kk" },
-  { n: "Discord", k: '<i class="fa-brands fa-discord"></i>', u: "https://discord.com/users/choppan" },
-  { n: "Steam", k: '<i class="fa-brands fa-steam"></i>', u: "https://steamcommunity.com/id/ChoppaN_/" },
-  { n: "GitHub", k: '<i class="fa-brands fa-github"></i>', u: "https://github.com/vadikwasd" },
-  { n: "Instagram", k: '<i class="fa-brands fa-instagram"></i>', u: "https://www.instagram.com/vladikkxl/" },
-  { n: "TryHackMe", k: '<i class="fa-solid fa-shield-halved"></i>', u: "https://tryhackme.com/p/vladislavsaliy26" },
-  { n: "Twitch", k: '<i class="fa-brands fa-twitch"></i>', u: "https://www.twitch.tv/choppchiefzx" },
-  { n: "LinkedIn", k: '<i class="fa-brands fa-linkedin-in"></i>', u: "https://www.linkedin.com/in/choppa-choppa-2b5aa21a8" },
-],
+          { n:"Steam", cls:"steam", k:'<i class="fa-brands fa-steam"></i>', u:"https://steamcommunity.com/id/ChoppaN_/" },
+          { n:"Discord", cls:"discord", k:'<i class="fa-brands fa-discord"></i>', u:"https://discord.com/users/choppan" },
+          { n:"Telegram", cls:"telegram", k:'<i class="fa-brands fa-telegram"></i>', u:"https://t.me/chopp1kk" },
+          { n:"GitHub", cls:"github", k:'<i class="fa-brands fa-github"></i>', u:"https://github.com/vadikwasd" },
+          { n:"Instagram", cls:"instagram", k:'<i class="fa-brands fa-instagram"></i>', u:"https://www.instagram.com/vladikkxl/" },
+          { n:"TryHackMe", cls:"tryhackme", k:'<i class="fa-solid fa-shield-halved"></i>', u:"https://tryhackme.com/p/vladislavsaliy26" },
+          { n:"Twitch", cls:"twitch", k:'<i class="fa-brands fa-twitch"></i>', u:"https://www.twitch.tv/choppchiefzx" },
+          { n:"LinkedIn", cls:"linkedin", k:'<i class="fa-brands fa-linkedin-in"></i>', u:"https://www.linkedin.com/in/choppa-choppa-2b5aa21a8" },
+        ],
       };
       /* ============ ENGINE (no need to edit below) ============ */
       const C = CONFIG,
@@ -886,13 +812,7 @@
       // ---------- card templates ----------
       const skillCard = (s) => `
         <div class="card sk" tabindex="0">
-          <div class="rw">
-            <svg viewBox="0 0 80 80" aria-hidden="true">
-              <circle class="tr" cx="40" cy="40" r="34" />
-              <circle class="arc" cx="40" cy="40" r="34" style="--off:${(214 * (1 - s.p / 100)).toFixed(1)}" />
-            </svg>
-            <b>${s.p}%</b>
-          </div>
+          <div class="rw"><b>${s.level}</b></div>
           <h3><span class="mk">${s.k}</span>${s.n}</h3>
           <div class="d">${s.d}</div>
         </div>`;
@@ -916,7 +836,7 @@
       const socialCard = (s) =>
         L(
           s.u,
-          "card soc",
+          `card soc soc-${s.cls || "default"}`,
           `<b class="ic">${s.k}</b><span><strong>${s.n}</strong><small>${ph(s.u) ? s.u : "open ↗"}</small></span>`,
         );
 
@@ -934,6 +854,7 @@
                 <button class="btn" data-go="projects">PROJECTS</button>
                 <button class="btn alt" data-go="cyber">CYBERSECURITY</button>
               </div>
+              <div class="github-home">${L("https://github.com/vadikwasd", "btn", '<i class="fa-brands fa-github"></i> GitHub ↗')}</div>
             </div>
             <div class="av">
               <i class="ring"></i><i class="ring r2"></i>
@@ -946,7 +867,7 @@
         about: (a = C.about, e = a.edu) =>
           head(
             "About me",
-            "Student, tinkerer and aspiring security professional — still learning, and building things along the way.",
+            a.intro,
           ) +
           `<div class="g">
             <div class="card">
@@ -963,7 +884,7 @@
         skills: () =>
           head(
             "Skills",
-            "Visual estimates for this dashboard, not formal test results. Hover, focus or tap a skill for details.",
+            "Self-assessed experience levels based on my current study and hands-on work. Hover, focus or tap a skill for details.",
           ) + `<div class="g sg">${C.skills.map(skillCard).join("")}</div>`,
 
         cyber: () =>
