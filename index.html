@@ -1,0 +1,1099 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>CHOPPA // @vadikwasd — Cybersecurity Student</title>
+    <meta
+      name="description"
+      content="Portfolio of Choppa (vadikwasd), a cybersecurity student focused on Linux, networking, programming and information security."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #06080d;
+        --p: #4da6ff;
+        --v: #1f6fe0;
+        --c: #67e8f9;
+        --ar: 77, 166, 255;
+        --vr: 31, 111, 224;
+        --br: 103, 232, 249;
+        --t: #e8edf5;
+        --m: #8d93ad;
+        --card: rgba(11, 17, 28, 0.74);
+        --ln: rgba(var(--ar), 0.3);
+        --sans: "Space Grotesk", system-ui, sans-serif;
+        --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+        --ser: "Instrument Serif", Georgia, serif;
+        --mx: 50vw;
+        --my: 30vh;
+        color-scheme: dark;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        color: var(--t);
+        font: 400 16px/1.6 var(--sans);
+        overflow-x: hidden;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      :focus-visible {
+        outline: 2px solid var(--c);
+        outline-offset: 2px;
+      }
+      .fx {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .bg {
+        background:
+          radial-gradient(
+            60% 50% at 12% 8%,
+            rgba(var(--vr), 0.3),
+            transparent 70%
+          ),
+          radial-gradient(
+            50% 45% at 92% 88%,
+            rgba(var(--br), 0.13),
+            transparent 70%
+          ),
+          var(--bg);
+      }
+      .grid {
+        background-image:
+          linear-gradient(rgba(var(--ar), 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(var(--ar), 0.1) 1px, transparent 1px);
+        background-size: 56px 56px;
+        -webkit-mask-image: radial-gradient(
+          ellipse at 50% 35%,
+          #000 15%,
+          transparent 75%
+        );
+        mask-image: radial-gradient(
+          ellipse at 50% 35%,
+          #000 15%,
+          transparent 75%
+        );
+        animation: gm 16s linear infinite;
+      }
+      @keyframes gm {
+        to {
+          background-position: 0 56px;
+        }
+      }
+      .cg {
+        background: radial-gradient(
+          420px circle at var(--mx) var(--my),
+          rgba(var(--ar), 0.16),
+          transparent 70%
+        );
+      }
+      .scan {
+        z-index: 3;
+        background: repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.03) 0 1px,
+          transparent 1px 3px
+        );
+      }
+      .noise {
+        z-index: 3;
+        opacity: 0.05;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+      header {
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px clamp(16px, 4vw, 40px);
+        background: rgba(6, 8, 13, 0.75);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--ln);
+      }
+      .logo {
+        font: 600 15px var(--mono);
+        letter-spacing: 0.08em;
+      }
+      .logo span {
+        color: var(--c);
+      }
+      nav {
+        display: flex;
+        gap: 4px;
+      }
+      nav button,
+      .burger {
+        font: 500 13px var(--mono);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--m);
+        background: none;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      nav button:hover,
+      .burger:hover {
+        color: var(--t);
+        border-color: var(--ln);
+        box-shadow: 0 0 14px rgba(var(--ar), 0.3);
+      }
+      nav button[aria-current="page"] {
+        color: var(--p);
+        border-color: var(--p);
+        background: rgba(var(--ar), 0.1);
+      }
+      .burger {
+        display: none;
+        font-size: 18px;
+        color: var(--t);
+        border-color: var(--ln);
+      }
+      main {
+        flex: 1;
+        position: relative;
+        z-index: 2;
+        width: min(1120px, 100%);
+        margin: 0 auto;
+        padding: clamp(24px, 5vw, 56px) clamp(16px, 4vw, 32px);
+      }
+      .view {
+        animation: in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      @keyframes in {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+          filter: blur(4px);
+        }
+      }
+      h2 {
+        font: 400 clamp(36px, 6vw, 58px)/1.05 var(--ser);
+        margin: 0 0 6px;
+      }
+      .lab {
+        margin: 0;
+        font: 12px var(--mono);
+        letter-spacing: 0.14em;
+        color: var(--c);
+        text-transform: uppercase;
+      }
+      .sub {
+        color: var(--m);
+        margin: 6px 0 28px;
+        max-width: 62ch;
+      }
+      .g {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+      .card {
+        position: relative;
+        display: block;
+        background: var(--card);
+        border: 1px solid var(--ln);
+        border-radius: 14px;
+        padding: 20px;
+        backdrop-filter: blur(6px);
+        transition:
+          transform 0.25s,
+          border-color 0.25s,
+          box-shadow 0.25s;
+      }
+      .card:hover,
+      .card:focus-within,
+      a.card:focus-visible {
+        transform: translateY(-4px);
+        border-color: var(--p);
+        box-shadow: 0 8px 34px rgba(var(--vr), 0.35);
+      }
+      .card h3 {
+        margin: 0 0 10px;
+        font: 600 17px var(--sans);
+      }
+      .tag {
+        display: inline-block;
+        font: 11px var(--mono);
+        padding: 3px 9px;
+        border: 1px solid var(--ln);
+        border-radius: 99px;
+        margin: 0 6px 6px 0;
+        color: #c4d3ea;
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: clamp(24px, 5vw, 64px);
+        align-items: center;
+        min-height: 62vh;
+      }
+      h1 {
+        font: 400 clamp(64px, 13vw, 150px)/0.9 var(--ser);
+        margin: 6px 0 10px;
+        letter-spacing: 0.02em;
+        background: linear-gradient(100deg, #fff, var(--p) 55%, var(--c));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .hdl {
+        font: 600 clamp(16px, 2.4vw, 22px) var(--mono);
+        color: var(--c);
+      }
+      .role {
+        font-size: clamp(18px, 2.4vw, 24px);
+        margin: 6px 0 10px;
+      }
+      .btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 22px 0;
+      }
+      .btn {
+        font: 600 13px var(--mono);
+        letter-spacing: 0.1em;
+        color: var(--t);
+        background: rgba(var(--vr), 0.14);
+        border: 1px solid var(--p);
+        border-radius: 8px;
+        padding: 12px 18px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .btn:hover {
+        background: var(--v);
+        box-shadow: 0 0 22px rgba(var(--ar), 0.6);
+      }
+      .btn.alt {
+        border-color: var(--c);
+        background: rgba(var(--br), 0.08);
+      }
+      .btn.alt:hover {
+        background: rgba(var(--br), 0.25);
+        box-shadow: 0 0 22px rgba(var(--br), 0.45);
+      }
+      @keyframes bl {
+        50% {
+          opacity: 0;
+        }
+      }
+      .av {
+        position: relative;
+        width: min(400px, 80vw);
+        aspect-ratio: 1;
+        margin: auto;
+        display: grid;
+        place-items: center;
+      }
+      .pic {
+        width: 78%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 3px solid var(--p);
+        background: #0a1424;
+        overflow: hidden;
+        box-shadow:
+          0 0 28px var(--p),
+          0 0 80px rgba(var(--ar), 0.45),
+          inset 0 0 30px rgba(var(--ar), 0.35);
+        animation: pulse 3.6s ease-in-out infinite;
+      }
+      .pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      @keyframes pulse {
+        50% {
+          box-shadow:
+            0 0 40px var(--p),
+            0 0 120px rgba(var(--ar), 0.6),
+            inset 0 0 36px rgba(var(--ar), 0.45);
+        }
+      }
+      .ring {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 1px dashed rgba(var(--br), 0.55);
+        animation: spin 18s linear infinite;
+      }
+      .ring::after {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        margin-left: -5px;
+        border-radius: 50%;
+        background: var(--c);
+        box-shadow: 0 0 14px var(--c);
+      }
+      .r2 {
+        inset: 6%;
+        border-color: rgba(var(--ar), 0.6);
+        animation-duration: 11s;
+        animation-direction: reverse;
+      }
+      .r2::after {
+        background: var(--p);
+        box-shadow: 0 0 14px var(--p);
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .sg {
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      }
+      .sk {
+        text-align: center;
+      }
+      .rw {
+        position: relative;
+        width: 104px;
+        height: 104px;
+        margin: 0 auto 10px;
+      }
+      .rw svg {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      }
+      .rw circle {
+        fill: none;
+        stroke-width: 6;
+      }
+      .tr {
+        stroke: rgba(var(--ar), 0.16);
+      }
+      .arc {
+        stroke: url(#gr);
+        stroke-linecap: round;
+        stroke-dasharray: 214;
+        stroke-dashoffset: var(--off);
+        animation: draw 1.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+        filter: drop-shadow(0 0 4px var(--p));
+      }
+      @keyframes draw {
+        from {
+          stroke-dashoffset: 214;
+        }
+      }
+      .rw b {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font: 600 15px var(--mono);
+      }
+      .mk {
+        font: 600 11px var(--mono);
+        color: var(--c);
+        border: 1px solid rgba(var(--br), 0.4);
+        border-radius: 5px;
+        padding: 1px 6px;
+        margin-right: 6px;
+      }
+      .d {
+        color: var(--m);
+        font-size: 13.5px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: 0.35s;
+      }
+      .sk:hover .d,
+      .sk:focus-visible .d {
+        max-height: 120px;
+        opacity: 1;
+      }
+      @media (hover: none) {
+        .d {
+          max-height: none;
+          opacity: 1;
+        }
+      }
+      .ic {
+        font: 600 18px var(--mono);
+        color: var(--p);
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--ln);
+        border-radius: 10px;
+        margin-bottom: 12px;
+        background: rgba(var(--ar), 0.08);
+        box-shadow: 0 0 14px rgba(var(--ar), 0.25);
+      }
+      .li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 0;
+        border-top: 1px dashed rgba(var(--ar), 0.2);
+        font-size: 14.5px;
+      }
+      .st {
+        font: 600 10px var(--mono);
+        letter-spacing: 0.08em;
+        padding: 2px 8px;
+        border-radius: 99px;
+        border: 1px solid;
+        white-space: nowrap;
+      }
+      .st::before {
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+        margin-right: 6px;
+        animation: bl 2s steps(2) infinite;
+      }
+      .LEARNING {
+        color: var(--c);
+        border-color: rgba(var(--br), 0.5);
+      }
+      .PRACTICING {
+        color: var(--p);
+        border-color: var(--p);
+      }
+      .FAMILIAR {
+        color: #dbe7ff;
+        border-color: rgba(219, 231, 255, 0.45);
+      }
+      .pj {
+        display: flex;
+        flex-direction: column;
+      }
+      .pj h3 {
+        margin-top: 4px;
+      }
+      .pj > p:not(.lab) {
+        flex: 1;
+        color: var(--m);
+        font-size: 14.5px;
+        margin: 0 0 12px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .lnk {
+        font: 600 12px var(--mono);
+        border: 1px solid var(--ln);
+        border-radius: 8px;
+        padding: 8px 12px;
+        transition: 0.2s;
+      }
+      .lnk:hover {
+        border-color: var(--c);
+        color: var(--c);
+      }
+      .soc {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .soc .ic {
+        margin: 0;
+      }
+      .soc strong {
+        display: block;
+      }
+      .soc small {
+        color: var(--m);
+        font: 12px var(--mono);
+        word-break: break-all;
+      }
+      footer {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 6px 24px;
+        padding: 14px clamp(16px, 4vw, 40px);
+        border-top: 1px solid var(--ln);
+        font: 11px var(--mono);
+        color: var(--m);
+        background: rgba(6, 8, 13, 0.7);
+      }
+      #toast {
+        position: fixed;
+        left: 50%;
+        bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+        transform: translate(-50%, 20px);
+        opacity: 0;
+        z-index: 9;
+        background: #0c1524;
+        border: 1px solid var(--p);
+        border-radius: 10px;
+        padding: 10px 16px;
+        font: 12px var(--mono);
+        transition: 0.3s;
+        pointer-events: none;
+        max-width: 90vw;
+      }
+      #toast.on {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      @media (max-width: 860px) {
+        .hero {
+          grid-template-columns: 1fr;
+          text-align: center;
+          min-height: 0;
+        }
+        .av {
+          order: -1;
+        }
+        .btns {
+          justify-content: center;
+        }
+        .sub {
+          margin-inline: auto;
+        }
+      }
+      @media (max-width: 760px) {
+        .burger {
+          display: block;
+        }
+        nav {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          flex-direction: column;
+          padding: 10px 16px;
+          background: rgba(6, 8, 13, 0.97);
+          border-bottom: 1px solid var(--ln);
+        }
+        nav.open {
+          display: flex;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="gr" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" style="stop-color: var(--p)" />
+          <stop offset="1" style="stop-color: var(--c)" />
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="fx bg"></div>
+    <div class="fx grid"></div>
+    <canvas class="fx" id="fx"></canvas>
+    <div class="fx cg"></div>
+    <div class="fx scan"></div>
+    <div class="fx noise"></div>
+    <header>
+      <a class="logo" href="#home" data-go="home"
+        >CHOPPA<span>@vadikwasd</span></a
+      ><button class="burger" aria-label="Menu" aria-expanded="false">
+        ☰
+      </button>
+      <nav id="nav" aria-label="Sections"></nav>
+    </header>
+    <main id="main"></main>
+    <footer><span>© Choppa</span><span>@vadikwasd</span></footer>
+    <div id="toast" role="status"></div>
+    <script>
+      /* ============ EDIT ME: all site content lives in CONFIG ============ */
+      const CONFIG = {
+        profile: {
+          name: "CHOPPA",
+          handle: "vadikwasd",
+          role: "Cybersecurity Student",
+          tagline:
+            "Cybersecurity student focused on Linux, networking, programming, web technologies and information security.",
+          avatar: "avatar.jpg",
+        }, // put avatar.jpg next to this file (or change the path); a generated placeholder shows if missing
+        about: {
+          edu: {
+            school: "West Ukrainian National University",
+            alt: "Західноукраїнський національний університет (ZUNU)",
+            field: "Cybersecurity",
+            level: "Bachelor's degree",
+          },
+          learning: [
+            "Cybersecurity",
+            "Python",
+            "Linux",
+            "Networking",
+            "Web Security",
+            "Cryptography",
+            "System Administration",
+          ],
+          worked: [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "Python",
+            "Linux",
+            "Windows",
+            "Git/GitHub",
+            "Basic networking concepts",
+            "Cryptography concepts",
+            "Hamming codes",
+          ],
+          hands: [
+            "Installing & configuring Arch Linux",
+            "Windows + Linux dual-boot setup",
+            "NVIDIA driver setup on Linux",
+            "Troubleshooting PC hardware & software",
+          ],
+        },
+        // p = visual estimate (0-100), not a formal test result
+        skills: [
+          {
+            n: "Python",
+            k: "PY",
+            p: 60,
+            d: "Currently learning and using for programming and cybersecurity-related tasks.",
+          },
+          {
+            n: "HTML/CSS",
+            k: "WEB",
+            p: 70,
+            d: "Used to build web pages and interfaces, including this portfolio.",
+          },
+          {
+            n: "JavaScript",
+            k: "JS",
+            p: 45,
+            d: "Adding interactivity to web projects; still building depth.",
+          },
+          {
+            n: "C/C++",
+            k: "C",
+            p: 30,
+            d: "Foundational knowledge of systems-level programming; still early on.",
+          },
+          {
+            n: "Bash",
+            k: "SH",
+            p: 35,
+            d: "Learning shell scripting while working with Linux.",
+          },
+          {
+            n: "SQL",
+            k: "DB",
+            p: 30,
+            d: "Early-stage familiarity with databases and queries.",
+          },
+        ],
+        // status: LEARNING | PRACTICING | FAMILIAR
+        cyber: [
+          {
+            i: ">_",
+            t: "Linux",
+            items: [
+              ["Arch Linux", "PRACTICING"],
+              ["Linux command line", "LEARNING"],
+              ["Package management", "LEARNING"],
+              ["System configuration", "LEARNING"],
+            ],
+          },
+          {
+            i: "⇄",
+            t: "Networking",
+            items: [
+              ["Networking fundamentals", "FAMILIAR"],
+              ["TCP/IP", "LEARNING"],
+              ["Network troubleshooting", "LEARNING"],
+              ["Cisco-related learning", "PRACTICING"],
+            ],
+          },
+          {
+            i: "◈",
+            t: "Cybersecurity",
+            items: [
+              ["Information security", "LEARNING"],
+              ["Web security", "LEARNING"],
+              ["System security", "LEARNING"],
+              ["Security fundamentals", "FAMILIAR"],
+            ],
+          },
+          {
+            i: "∑",
+            t: "Cryptography",
+            items: [
+              ["Cryptographic concepts", "FAMILIAR"],
+              ["Discrete logarithms", "FAMILIAR"],
+              ["Hamming codes", "FAMILIAR"],
+              ["Coding theory", "LEARNING"],
+            ],
+          },
+          {
+            i: "⚑",
+            t: "Practical Learning",
+            items: [
+              ["TryHackMe", "LEARNING"],
+              ["Security labs", "LEARNING"],
+              ["CTF-style learning", "LEARNING"],
+            ],
+          },
+        ],
+        // gh/demo: replace YOUR_* with real URLs; placeholders stay inert. Remove demo to hide the button.
+        projects: [
+          {
+            t: "Personal Portfolio",
+            cat: "Web",
+            tech: ["HTML", "CSS", "JavaScript"],
+            d: "A cyberpunk-themed personal portfolio built around the Choppa / vadikwasd identity.",
+            gh: "YOUR_GITHUB_URL",
+            demo: "YOUR_DEMO_URL",
+          },
+          {
+            t: "Cybersecurity University Projects",
+            cat: "Academic",
+            tech: ["Security", "Systems", "Networking"],
+            d: "Academic projects related to cybersecurity, computer systems and information security.",
+            gh: "YOUR_GITHUB_URL",
+          },
+          {
+            t: "Hamming Codes",
+            cat: "Academic · Coding theory",
+            tech: ["Hamming codes", "Python"],
+            d: "Educational work involving Hamming codes and coding theory.",
+            gh: "YOUR_GITHUB_URL",
+          },
+          {
+            t: "Cryptography Project",
+            cat: "Academic · Crypto",
+            tech: ["Cryptography", "Discrete logarithms"],
+            d: "Academic work involving cryptographic concepts and discrete logarithms.",
+            gh: "YOUR_GITHUB_URL",
+          },
+          {
+            t: "Linux / Arch Linux Environment",
+            cat: "Systems",
+            tech: ["Arch Linux", "Bash", "NVIDIA"],
+            d: "Personal Windows + Arch Linux dual-boot setup: installation, driver configuration and ongoing tuning.",
+            gh: "YOUR_GITHUB_URL",
+          },
+          {
+            t: "Web Development",
+            cat: "Web",
+            tech: ["HTML", "CSS", "JavaScript"],
+            d: "Experiments and projects using HTML, CSS and JavaScript.",
+            gh: "YOUR_GITHUB_URL",
+            demo: "YOUR_DEMO_URL",
+          },
+        ],
+        socials: [
+          { n: "Telegram", k: "TG", u: "https://t.me/chopp1kk" },
+          { n: "Discord", k: "DC", u: "https://discord.com/users/choppan" },
+          { n: "Steam", k: "ST", u: "https://steamcommunity.com/id/ChoppaN_/" },
+          { n: "GitHub", k: "GH", u: "https://github.com/vadikwasd" },
+          { n: "Instagram", k: "IG", u: "https://www.instagram.com/vladikkxl/" },
+          { n: "TryHackMe", k: "THM", u: "https://tryhackme.com/p/vladislavsaliy26" },
+          { n: "Twitch", k: "TW", u: "https://www.twitch.tv/choppchiefzx" },
+          { n: "LinkedIn", k: "IN", u: "https://www.linkedin.com/in/choppa-choppa-2b5aa21a8" },
+        ],
+      };
+      /* ============ ENGINE (no need to edit below) ============ */
+      const C = CONFIG,
+        $ = (s) => document.querySelector(s),
+        ph = (u) => !u || /^YOUR_/.test(u);
+      const cv = (n) =>
+        getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      const L = (u, c, t) =>
+        ph(u)
+          ? `<a class="${c}" href="#" data-ph>${t}</a>`
+          : `<a class="${c}" href="${u}" target="_blank" rel="noopener noreferrer">${t}</a>`;
+      const tags = (a) =>
+        a.map((t) => `<span class="tag">${t}</span>`).join("");
+      const head = (t, s) => `<h2>${t}</h2><p class="sub">${s}</p>`;
+      const V = [
+        ["home", "Home"],
+        ["about", "About"],
+        ["skills", "Skills"],
+        ["cyber", "Cybersecurity"],
+        ["projects", "Projects"],
+        ["socials", "Socials"],
+      ];
+      // ---------- card templates ----------
+      const skillCard = (s) => `
+        <div class="card sk" tabindex="0">
+          <div class="rw">
+            <svg viewBox="0 0 80 80" aria-hidden="true">
+              <circle class="tr" cx="40" cy="40" r="34" />
+              <circle class="arc" cx="40" cy="40" r="34" style="--off:${(214 * (1 - s.p / 100)).toFixed(1)}" />
+            </svg>
+            <b>${s.p}%</b>
+          </div>
+          <h3><span class="mk">${s.k}</span>${s.n}</h3>
+          <div class="d">${s.d}</div>
+        </div>`;
+
+      const cyberCard = (c) => `
+        <div class="card">
+          <div class="ic">${c.i}</div>
+          <h3>${c.t}</h3>
+          ${c.items.map(([name, status]) => `<div class="li"><span>${name}</span><span class="st ${status}">${status}</span></div>`).join("")}
+        </div>`;
+
+      const projectCard = (p) => `
+        <article class="card pj">
+          <p class="lab">${p.cat}</p>
+          <h3>${p.t}</h3>
+          <p>${p.d}</p>
+          <div>${tags(p.tech)}</div>
+          <div class="row">${L(p.gh, "lnk", "GitHub ↗")}${p.demo ? L(p.demo, "lnk", "Demo ↗") : ""}</div>
+        </article>`;
+
+      const socialCard = (s) =>
+        L(
+          s.u,
+          "card soc",
+          `<b class="ic">${s.k}</b><span><strong>${s.n}</strong><small>${ph(s.u) ? s.u : "open ↗"}</small></span>`,
+        );
+
+      // ---------- views (one per navigation item) ----------
+      const views = {
+        home: () => `
+          <div class="hero">
+            <div>
+              <h1>${C.profile.name}</h1>
+              <div class="hdl">@${C.profile.handle}</div>
+              <div class="role">${C.profile.role}</div>
+              <p class="sub" style="margin-bottom:0">${C.profile.tagline}</p>
+              <div class="btns">
+                <button class="btn" data-go="about">ABOUT ME</button>
+                <button class="btn" data-go="projects">PROJECTS</button>
+                <button class="btn alt" data-go="cyber">CYBERSECURITY</button>
+              </div>
+            </div>
+            <div class="av">
+              <i class="ring"></i><i class="ring r2"></i>
+              <div class="pic"><img id="av" src="photo.jpg" alt="Profile photo" /></div>
+            </div>
+          </div>`,
+
+        about: (a = C.about, e = a.edu) =>
+          head(
+            "About me",
+            "Student, tinkerer and aspiring security professional — still learning, and building things along the way.",
+          ) +
+          `<div class="g">
+            <div class="card">
+              <div class="ic">◈</div>
+              <h3>Education</h3>
+              <strong>${e.school}</strong><br><span style="color:var(--m);font-size:14px">${e.alt}</span>
+              <p class="lab" style="margin-top:14px">${e.field} · ${e.level}</p>
+            </div>
+            <div class="card"><h3>Currently Learning</h3>${tags(a.learning)}</div>
+            <div class="card"><h3>Already Worked With</h3>${tags(a.worked)}</div>
+            <div class="card"><h3>Hands-on</h3>${a.hands.map((h) => `<div class="li">${h}</div>`).join("")}</div>
+          </div>`,
+
+        skills: () =>
+          head(
+            "Skills",
+            "Visual estimates for this dashboard, not formal test results. Hover, focus or tap a skill for details.",
+          ) + `<div class="g sg">${C.skills.map(skillCard).join("")}</div>`,
+
+        cyber: () =>
+          head(
+            "Cybersecurity",
+            "Focus areas with an honest status: LEARNING, PRACTICING or FAMILIAR.",
+          ) + `<div class="g">${C.cyber.map(cyberCard).join("")}</div>`,
+
+        projects: () =>
+          head("Projects", "University work and personal experiments.") +
+          `<div class="g">${C.projects.map(projectCard).join("")}</div>`,
+
+        socials: () =>
+          head("Socials", "Pick a channel. Every card opens in a new tab.") +
+          `<div class="g">${C.socials.map(socialCard).join("")}</div>`,
+      };
+
+      $("#main").innerHTML = V.map(
+        ([id]) =>
+          `<section class="view" id="${id}" hidden>${views[id]()}</section>`,
+      ).join("");
+      $("#nav").innerHTML = V.map(
+        ([id, t]) => `<button data-go="${id}">${t}</button>`,
+      ).join("");
+      const FB =
+        "data:image/svg+xml," +
+        encodeURIComponent(
+          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="rgb(${cv("--ar")})" stop-opacity=".35"/><stop offset="1" stop-color="rgb(${cv("--ar")})" stop-opacity="0"/></linearGradient></defs><rect width="200" height="200" fill="#080c14"/><rect width="200" height="200" fill="url(#g)"/><text x="100" y="128" font-size="84" text-anchor="middle" fill="${cv("--p")}" font-family="monospace" font-weight="700">C</text></svg>`,
+        );
+      const im = $("#av"),
+        useFB = () => {
+          im.onerror = null;
+          im.src = FB;
+        };
+      im.onerror = useFB;
+      if (im.complete && !im.naturalWidth) useFB();
+      let tt;
+      const toast = (m) => {
+        const t = $("#toast");
+        t.textContent = m;
+        t.classList.add("on");
+        clearTimeout(tt);
+        tt = setTimeout(() => t.classList.remove("on"), 2600);
+      };
+      function go(id) {
+        if (!V.some((v) => v[0] === id)) id = "home";
+        document
+          .querySelectorAll(".view")
+          .forEach((s) => (s.hidden = s.id !== id));
+        document
+          .querySelectorAll("#nav button")
+          .forEach((b) =>
+            b.setAttribute(
+              "aria-current",
+              b.dataset.go === id ? "page" : "false",
+            ),
+          );
+        $("#nav").classList.remove("open");
+        $(".burger").setAttribute("aria-expanded", "false");
+        scrollTo({ top: 0 });
+        try {
+          history.replaceState(null, "", "#" + id);
+        } catch (e) {}
+      }
+      document.addEventListener("click", (e) => {
+        const g = e.target.closest("[data-go]");
+        if (g) {
+          e.preventDefault();
+          go(g.dataset.go);
+          return;
+        }
+        if (e.target.closest("[data-ph]")) {
+          e.preventDefault();
+          toast("Placeholder link — set the real URL in CONFIG");
+        }
+      });
+      $(".burger").onclick = () => {
+        const o = $("#nav").classList.toggle("open");
+        $(".burger").setAttribute("aria-expanded", o);
+      };
+      addEventListener("hashchange", () => go(location.hash.slice(1)));
+      go(location.hash.slice(1));
+      addEventListener(
+        "pointermove",
+        (e) => {
+          const s = document.documentElement.style;
+          s.setProperty("--mx", e.clientX + "px");
+          s.setProperty("--my", e.clientY + "px");
+        },
+        { passive: true },
+      );
+      (() => {
+        const c = $("#fx"),
+          x = c.getContext("2d"),
+          rm = matchMedia("(prefers-reduced-motion:reduce)").matches,
+          A = cv("--ar"),
+          B = cv("--br");
+        let w,
+          h,
+          P = [];
+        const init = () => {
+          w = c.width = innerWidth;
+          h = c.height = innerHeight;
+          P = Array.from({ length: Math.min(55, (w / 24) | 0) }, () => ({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: Math.random() * 1.5 + 0.4,
+            vx: (Math.random() - 0.5) * 0.25,
+            vy: -Math.random() * 0.3 - 0.05,
+            c: Math.random() < 0.25 ? B : A,
+          }));
+        };
+        const draw = () => {
+          x.clearRect(0, 0, w, h);
+          for (const p of P) {
+            if (!rm) {
+              p.x += p.vx;
+              p.y += p.vy;
+              if (p.y < -5) {
+                p.y = h + 5;
+                p.x = Math.random() * w;
+              }
+            }
+            x.fillStyle = `rgba(${p.c},.55)`;
+            x.beginPath();
+            x.arc(p.x, p.y, p.r, 0, 7);
+            x.fill();
+          }
+        };
+        const loop = () => {
+          draw();
+          if (!rm && !document.hidden) requestAnimationFrame(loop);
+        };
+        init();
+        loop();
+        addEventListener("resize", () => {
+          init();
+          draw();
+        });
+        document.addEventListener("visibilitychange", () => {
+          if (!document.hidden && !rm) requestAnimationFrame(loop);
+        });
+      })();
+    </script>
+  </body>
+</html>
