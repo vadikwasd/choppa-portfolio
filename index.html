@@ -324,7 +324,7 @@
         position: relative;
         width: min(400px, 80vw);
         aspect-ratio: 1;
-        margin: auto;
+        margin: auto auto 64px;
         display: grid;
         place-items: center;
       }
@@ -390,14 +390,15 @@
       .discord-activity {
         position: absolute;
         left: 50%;
-        bottom: -34px;
+        bottom: -58px;
         z-index: 4;
         width: min(320px, 88%);
+        min-height: 64px;
         transform: translateX(-50%);
         display: flex;
         align-items: center;
         gap: 11px;
-        padding: 10px 13px;
+        padding: 9px 13px;
         border: 1px solid rgba(var(--ar), .32);
         border-radius: 12px;
         background: rgba(6, 8, 13, .92);
@@ -739,7 +740,7 @@
           bottom: 8%;
         }
         .discord-activity {
-          bottom: -38px;
+          bottom: -62px;
           width: min(300px, 92%);
         }
         .btns {
