@@ -469,6 +469,13 @@
         text-overflow: ellipsis;
         white-space: nowrap;
       }
+      .activity-timer {
+        display: block;
+        margin-top: 2px;
+        color: var(--c);
+        font: 600 10px var(--mono);
+        letter-spacing: .03em;
+      }
       @keyframes pulse {
         50% {
           box-shadow:
@@ -999,6 +1006,7 @@
                   <span class="activity-label">Discord activity</span>
                   <strong class="activity-name"></strong>
                   <small class="activity-details"></small>
+                  <small class="activity-timer" hidden></small>
                 </div>
               </div>
             </div>
@@ -1066,6 +1074,7 @@
       const activityEl = $("#discord-activity");
       const activityName = activityEl?.querySelector(".activity-name");
       const activityDetails = activityEl?.querySelector(".activity-details");
+      const activityTimer = activityEl?.querySelector(".activity-timer");
       const activityIcon = activityEl?.querySelector(".activity-icon");
       const activityImage = activityEl?.querySelector(".activity-image");
       const presenceLabels = {
@@ -1084,18 +1093,24 @@
       };
 
       const discordAssetUrl = (activity, asset) => {
-        if (!asset) return "";
+        if (asset) {
+          if (asset.startsWith("mp:")) {
+            return `https://media.discordapp.net/${asset.slice(3)}`;
+          }
 
-        if (asset.startsWith("mp:")) {
-          return `https://media.discordapp.net/${asset.slice(3)}`;
+          if (/^https?:\/\//i.test(asset)) {
+            return asset;
+          }
+
+          if (activity?.application_id) {
+            return `https://cdn.discordapp.com/app-assets/${activity.application_id}/${asset}.webp?size=128`;
+          }
         }
 
-        if (/^https?:\/\//i.test(asset)) {
-          return asset;
-        }
-
-        if (activity?.application_id) {
-          return `https://cdn.discordapp.com/app-assets/${activity.application_id}/${asset}.webp?size=128`;
+        // Discord's detected CS2 activity currently has no assets.
+        // Steam app 730 provides a reliable square fallback icon.
+        if (activity?.name === "Counter-Strike 2") {
+          return "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/730/69f7ebe2735c366c65c0b33dae00e12dc40edbe4.jpg";
         }
 
         return "";
@@ -1129,6 +1144,36 @@
         activityImage.src = imageUrl;
       };
 
+      let activityStartedAt = null;
+
+      const formatElapsed = (startedAt) => {
+        const elapsed = Math.max(0, Date.now() - startedAt);
+        const totalSeconds = Math.floor(elapsed / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        if (hours > 0) {
+          return `${hours}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
+        }
+        return `${minutes}m ${String(seconds).padStart(2, "0")}s`;
+      };
+
+      const renderActivityTimer = () => {
+        if (!activityTimer) return;
+
+        if (!activityStartedAt || activityEl?.hidden) {
+          activityTimer.hidden = true;
+          activityTimer.textContent = "";
+          return;
+        }
+
+        activityTimer.hidden = false;
+        activityTimer.textContent = `Playing for ${formatElapsed(activityStartedAt)}`;
+      };
+
+      setInterval(renderActivityTimer, 1000);
+
       const setActivity = (activities = []) => {
         if (!activityEl || !activityName || !activityDetails) return;
 
@@ -1144,6 +1189,8 @@
           activityEl.hidden = true;
           activityName.textContent = "";
           activityDetails.textContent = "";
+          activityStartedAt = null;
+          renderActivityTimer();
           setActivityImage(null);
           return;
         }
@@ -1164,7 +1211,14 @@
         setActivityImage(activity);
         activityDetails.textContent = detailParts.join(" · ");
         activityDetails.hidden = detailParts.length === 0;
+
+        activityStartedAt =
+          activity.type === 0 && Number.isFinite(Number(activity?.timestamps?.start))
+            ? Number(activity.timestamps.start)
+            : null;
+
         activityEl.hidden = false;
+        renderActivityTimer();
         activityEl.title = `${label}: ${activity.name}`;
       };
 
