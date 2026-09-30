@@ -413,17 +413,34 @@
         border-color: var(--p);
       }
       .activity-icon {
-        width: 38px;
-        height: 38px;
-        flex: 0 0 38px;
+        position: relative;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
         display: grid;
         place-items: center;
+        overflow: hidden;
         border: 1px solid rgba(var(--br), .38);
         border-radius: 10px;
         color: var(--c);
         background: rgba(var(--br), .07);
         font-size: 17px;
         box-shadow: 0 0 14px rgba(var(--br), .12);
+      }
+      .activity-icon img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
+      .activity-icon .activity-fallback {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+      }
+      .activity-icon.has-image .activity-fallback {
+        display: none;
       }
       .activity-copy {
         min-width: 0;
@@ -974,7 +991,10 @@
                 <span class="dot"></span><span class="presence-text">CHECKING...</span>
               </div>
               <div id="discord-activity" class="discord-activity" hidden>
-                <div class="activity-icon"><i class="fa-solid fa-gamepad"></i></div>
+                <div class="activity-icon">
+                  <img class="activity-image" alt="" hidden />
+                  <span class="activity-fallback"><i class="fa-solid fa-gamepad"></i></span>
+                </div>
                 <div class="activity-copy">
                   <span class="activity-label">Discord activity</span>
                   <strong class="activity-name"></strong>
@@ -1046,6 +1066,8 @@
       const activityEl = $("#discord-activity");
       const activityName = activityEl?.querySelector(".activity-name");
       const activityDetails = activityEl?.querySelector(".activity-details");
+      const activityIcon = activityEl?.querySelector(".activity-icon");
+      const activityImage = activityEl?.querySelector(".activity-image");
       const presenceLabels = {
         online: "ONLINE",
         idle: "IDLE",
@@ -1059,6 +1081,52 @@
         presenceEl.className = `discord-presence ${safeStatus}`;
         presenceText.textContent = presenceLabels[safeStatus];
         presenceEl.title = `Discord: ${presenceLabels[safeStatus]}`;
+      };
+
+      const discordAssetUrl = (activity, asset) => {
+        if (!asset) return "";
+
+        if (asset.startsWith("mp:")) {
+          return `https://media.discordapp.net/${asset.slice(3)}`;
+        }
+
+        if (/^https?:\/\//i.test(asset)) {
+          return asset;
+        }
+
+        if (activity?.application_id) {
+          return `https://cdn.discordapp.com/app-assets/${activity.application_id}/${asset}.webp?size=128`;
+        }
+
+        return "";
+      };
+
+      const setActivityImage = (activity) => {
+        if (!activityIcon || !activityImage) return;
+
+        const asset =
+          activity?.assets?.large_image ||
+          activity?.assets?.small_image ||
+          "";
+        const imageUrl = discordAssetUrl(activity, asset);
+
+        activityIcon.classList.remove("has-image");
+        activityImage.hidden = true;
+        activityImage.removeAttribute("src");
+        activityImage.alt = "";
+
+        if (!imageUrl) return;
+
+        activityImage.onload = () => {
+          activityImage.hidden = false;
+          activityIcon.classList.add("has-image");
+        };
+        activityImage.onerror = () => {
+          activityImage.hidden = true;
+          activityIcon.classList.remove("has-image");
+        };
+        activityImage.alt = `${activity.name || "Discord activity"} artwork`;
+        activityImage.src = imageUrl;
       };
 
       const setActivity = (activities = []) => {
@@ -1076,6 +1144,7 @@
           activityEl.hidden = true;
           activityName.textContent = "";
           activityDetails.textContent = "";
+          setActivityImage(null);
           return;
         }
 
@@ -1092,6 +1161,7 @@
 
         activityEl.querySelector(".activity-label").textContent = label;
         activityName.textContent = activity.name;
+        setActivityImage(activity);
         activityDetails.textContent = detailParts.join(" · ");
         activityDetails.hidden = detailParts.length === 0;
         activityEl.hidden = false;
