@@ -693,6 +693,26 @@
         font: 12px var(--mono);
         word-break: break-all;
       }
+      .voice-summary { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 18px; }
+      .voice-pill { font:600 11px var(--mono); letter-spacing:.07em; padding:7px 11px; border:1px solid var(--ln); border-radius:999px; color:var(--m); background:rgba(var(--ar),.06); }
+      .voice-pill.live { color:#23a55a; border-color:rgba(35,165,90,.45); }
+      .voice-grid { display:grid; gap:16px; }
+      .voice-channel { padding:18px; }
+      .voice-channel-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+      .voice-channel-head h3 { margin:0; display:flex; align-items:center; gap:9px; min-width:0; }
+      .voice-channel-head h3 i { color:var(--c); }
+      .voice-count { flex:0 0 auto; font:600 11px var(--mono); color:var(--c); border:1px solid rgba(var(--br),.35); border-radius:999px; padding:3px 8px; }
+      .voice-member { display:grid; grid-template-columns:44px minmax(0,1fr) auto; align-items:center; gap:11px; padding:10px 0; border-top:1px dashed rgba(var(--ar),.2); }
+      .voice-avatar { width:44px; height:44px; border-radius:50%; object-fit:cover; border:1px solid rgba(var(--br),.42); background:#0a1424; }
+      .voice-member-copy { min-width:0; }
+      .voice-member-name { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600; }
+      .voice-member-user { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--m); font:11px var(--mono); }
+      .voice-flags { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:6px; }
+      .voice-flag { font:600 9px var(--mono); letter-spacing:.05em; padding:3px 7px; border:1px solid var(--ln); border-radius:999px; color:var(--m); white-space:nowrap; }
+      .voice-flag.on { color:var(--c); border-color:rgba(var(--br),.42); }
+      .voice-state { padding:28px 20px; text-align:center; color:var(--m); }
+      .voice-state i { display:block; margin-bottom:10px; color:var(--c); font-size:25px; }
+      @media (max-width:560px) { .voice-member { grid-template-columns:40px minmax(0,1fr); } .voice-avatar { width:40px; height:40px; } .voice-flags { grid-column:1 / -1; justify-content:flex-start; padding-left:51px; } }
       footer {
         position: relative;
         z-index: 2;
@@ -820,6 +840,7 @@
             "Cybersecurity student focused on Linux, networking, programming, web technologies and information security.",
           avatar: "avatar.jpg",
           discordUserId: "800023611796094978",
+          discordVoiceApi: "https://choppa-discord-activity.onrender.com/api/voice",
         }, // put avatar.jpg next to this file (or change the path); a generated placeholder shows if missing
         about: {
           intro: "I'm a third-year Cybersecurity student interested in web and network security, Linux, cryptography and OSINT. I enjoy exploring new technologies, understanding how systems work and continuously expanding my practical knowledge.",
@@ -940,6 +961,7 @@
         ["about", "About"],
         ["skills", "Skills"],
         ["cyber", "Cybersecurity"],
+        ["discord", "Discord Activity"],
         ["projects", "Projects"],
         ["socials", "Socials"],
       ];
@@ -1041,6 +1063,17 @@
             "Cybersecurity",
             "Focus areas with an honest status: LEARNING, PRACTICING or FAMILIAR.",
           ) + `<div class="g">${C.cyber.map(cyberCard).join("")}</div>`,
+
+        discord: () =>
+          head("Discord Activity", "Live voice activity from my Discord server. Only active voice channels are shown.") +
+          `<div class="voice-summary">
+            <span id="voice-live" class="voice-pill">● CONNECTING</span>
+            <span id="voice-server" class="voice-pill">DISCORD SERVER</span>
+            <span id="voice-total" class="voice-pill">0 USERS IN VOICE</span>
+          </div>
+          <div id="voice-channels" class="voice-grid">
+            <div class="card voice-state"><i class="fa-solid fa-satellite-dish"></i>Loading live voice activity...</div>
+          </div>`,
 
         projects: () =>
           head("Projects", "University work and personal experiments.") +
@@ -1244,8 +1277,75 @@
       updateDiscordPresence();
       setInterval(updateDiscordPresence, 30000);
       document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) updateDiscordPresence();
+        if (!document.hidden) { updateDiscordPresence(); updateVoiceActivity(); }
       });
+      const voiceApi = C.profile.discordVoiceApi;
+      const esc = (value = "") => String(value).replace(/[&<>"']/g, (ch) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[ch]);
+
+      const renderVoiceActivity = (payload) => {
+        const live = $("#voice-live");
+        const server = $("#voice-server");
+        const total = $("#voice-total");
+        const root = $("#voice-channels");
+        if (!live || !server || !total || !root) return;
+
+        const channels = Array.isArray(payload?.channels)
+          ? payload.channels.filter((channel) => Number(channel.memberCount) > 0)
+          : [];
+        const totalUsers = channels.reduce((sum, channel) => sum + Number(channel.memberCount || 0), 0);
+
+        live.className = "voice-pill live";
+        live.textContent = "● LIVE";
+        server.textContent = payload?.server?.name || "DISCORD SERVER";
+        total.textContent = `${totalUsers} ${totalUsers === 1 ? "USER" : "USERS"} IN VOICE`;
+
+        if (!channels.length) {
+          root.innerHTML = `<div class="card voice-state"><i class="fa-solid fa-microphone-lines-slash"></i>No one is in voice right now.</div>`;
+          return;
+        }
+
+        root.innerHTML = channels.map((channel) => `
+          <article class="card voice-channel">
+            <div class="voice-channel-head">
+              <h3><i class="fa-solid fa-volume-high"></i><span>${esc(channel.name)}</span></h3>
+              <span class="voice-count">${Number(channel.memberCount || 0)}${channel.userLimit ? ` / ${Number(channel.userLimit)}` : ""}</span>
+            </div>
+            ${(channel.members || []).map((member) => `
+              <div class="voice-member">
+                <img class="voice-avatar" src="${esc(member.avatar)}" alt="${esc(member.name)} avatar" loading="lazy" />
+                <div class="voice-member-copy">
+                  <strong class="voice-member-name">${esc(member.name)}</strong>
+                  <small class="voice-member-user">@${esc(member.username)}</small>
+                </div>
+                <div class="voice-flags">
+                  <span class="voice-flag ${member.muted ? "on" : ""}"><i class="fa-solid fa-${member.muted ? "microphone-slash" : "microphone"}"></i> ${member.muted ? "MUTED" : "MIC ON"}</span>
+                  ${member.deafened ? `<span class="voice-flag on"><i class="fa-solid fa-headphones-simple"></i> DEAFENED</span>` : ""}
+                  ${member.streaming ? `<span class="voice-flag on"><i class="fa-solid fa-display"></i> STREAMING</span>` : ""}
+                  ${member.video ? `<span class="voice-flag on"><i class="fa-solid fa-video"></i> CAMERA</span>` : ""}
+                </div>
+              </div>`).join("")}
+          </article>`).join("");
+      };
+
+      const updateVoiceActivity = async () => {
+        try {
+          const response = await fetch(voiceApi, { cache: "no-store" });
+          if (!response.ok) throw new Error(`Voice API HTTP ${response.status}`);
+          const payload = await response.json();
+          if (!payload?.success) throw new Error("Invalid voice API response");
+          renderVoiceActivity(payload);
+        } catch (error) {
+          console.warn("Discord voice activity unavailable:", error);
+          const live = $("#voice-live");
+          const root = $("#voice-channels");
+          if (live) { live.className = "voice-pill"; live.textContent = "● OFFLINE"; }
+          if (root) root.innerHTML = `<div class="card voice-state"><i class="fa-solid fa-triangle-exclamation"></i>Voice activity is temporarily unavailable.</div>`;
+        }
+      };
+
+      updateVoiceActivity();
+      setInterval(updateVoiceActivity, 15000);
+
       let tt;
       const toast = (m) => {
         const t = $("#toast");
