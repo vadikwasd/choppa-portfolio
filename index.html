@@ -713,6 +713,267 @@
       .voice-state { padding:28px 20px; text-align:center; color:var(--m); }
       .voice-state i { display:block; margin-bottom:10px; color:var(--c); font-size:25px; }
       @media (max-width:560px) { .voice-member { grid-template-columns:40px minmax(0,1fr); } .voice-avatar { width:40px; height:40px; } .voice-flags { grid-column:1 / -1; justify-content:flex-start; padding-left:51px; } }
+      
+      .discord-server-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+
+.discord-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.discord-panel {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--ln);
+  border-radius: 14px;
+  background: var(--card);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.18);
+}
+
+.discord-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 14px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(var(--ar), 0.18);
+}
+
+.discord-panel-head h3 {
+  margin: 2px 0 0;
+  font: 600 18px var(--sans);
+}
+
+.discord-panel-head > i {
+  color: var(--c);
+  font-size: 18px;
+  filter: drop-shadow(0 0 8px rgba(var(--br), 0.45));
+}
+
+.members-panel {
+  position: sticky;
+  top: 82px;
+}
+
+.members-list {
+  max-height: 590px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 5px 4px 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--ar), 0.45) transparent;
+}
+
+.members-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.members-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.members-list::-webkit-scrollbar-thumb {
+  background: rgba(var(--ar), 0.4);
+  border-radius: 999px;
+}
+
+.members-list::-webkit-scrollbar-thumb:hover {
+  background: var(--p);
+}
+
+.members-state {
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--m);
+  text-align: center;
+  font: 12px var(--mono);
+}
+
+.members-state i {
+  color: var(--c);
+  font-size: 24px;
+}
+
+.member-group {
+  padding: 10px 0 4px;
+}
+
+.member-group-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 4px 5px;
+  overflow: hidden;
+  color: var(--m);
+  font: 600 10px var(--mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.member-group-title::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: var(--group-color, var(--m));
+  box-shadow: 0 0 8px var(--group-color, var(--m));
+}
+
+.member-group-title .group-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.member-group-title .group-count {
+  flex: 0 0 auto;
+  color: #687080;
+}
+
+.server-member {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 7px 8px;
+  border-radius: 9px;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.server-member:hover {
+  background: rgba(var(--ar), 0.08);
+  transform: translateX(2px);
+}
+
+.member-avatar-wrap {
+  position: relative;
+  width: 38px;
+  height: 38px;
+}
+
+.member-avatar {
+  width: 38px;
+  height: 38px;
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #0a1424;
+}
+
+.member-status {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 12px;
+  height: 12px;
+  border: 3px solid #0b111c;
+  border-radius: 50%;
+  background: #80848e;
+}
+
+.member-status.online {
+  background: #23a55a;
+}
+
+.member-status.idle {
+  background: #f0b232;
+}
+
+.member-status.dnd {
+  background: #f23f43;
+}
+
+.member-copy {
+  min-width: 0;
+}
+
+.member-name {
+  display: block;
+  overflow: hidden;
+  color: var(--member-color, var(--t));
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.member-activity {
+  display: block;
+  margin-top: 2px;
+  overflow: hidden;
+  color: var(--m);
+  font: 10px var(--mono);
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.member-activity i {
+  width: 13px;
+  margin-right: 3px;
+  color: var(--c);
+  text-align: center;
+}
+
+.members-offline {
+  margin-top: 8px;
+  padding: 12px 8px 2px;
+  border-top: 1px solid rgba(var(--ar), 0.18);
+  color: #687080;
+  font: 600 10px var(--mono);
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 900px) {
+  .discord-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .members-panel {
+    position: static;
+  }
+
+  .members-list {
+    max-height: 520px;
+  }
+}
+
+@media (max-width: 560px) {
+  .discord-panel {
+    padding: 14px;
+  }
+
+  .discord-server-summary {
+    gap: 7px;
+  }
+
+  .discord-server-summary .voice-pill {
+    font-size: 9px;
+    padding: 6px 8px;
+  }
+
+  .members-list {
+    max-height: 460px;
+  }
+}
+
       footer {
         position: relative;
         z-index: 2;
@@ -841,6 +1102,7 @@
           avatar: "avatar.jpg",
           discordUserId: "800023611796094978",
           discordVoiceApi: "https://choppa-discord-activity.onrender.com/api/voice",
+          discordMembersApi: "https://choppa-discord-activity.onrender.com/api/members",
         }, // put avatar.jpg next to this file (or change the path); a generated placeholder shows if missing
         about: {
           intro: "I'm a third-year Cybersecurity student interested in web and network security, Linux, cryptography and OSINT. I enjoy exploring new technologies, understanding how systems work and continuously expanding my practical knowledge.",
@@ -1065,15 +1327,58 @@
           ) + `<div class="g">${C.cyber.map(cyberCard).join("")}</div>`,
 
         discord: () =>
-          head("Discord Activity", "Live voice activity from my Discord server. Only active voice channels are shown.") +
-          `<div class="voice-summary">
-            <span id="voice-live" class="voice-pill">● CONNECTING</span>
-            <span id="voice-server" class="voice-pill">DISCORD SERVER</span>
-            <span id="voice-total" class="voice-pill">0 USERS IN VOICE</span>
-          </div>
-          <div id="voice-channels" class="voice-grid">
-            <div class="card voice-state"><i class="fa-solid fa-satellite-dish"></i>Loading live voice activity...</div>
-          </div>`,
+  head(
+    "Discord Activity",
+    "Live activity from my Discord server — voice channels, online members and current activities.",
+  ) +
+  `<div class="discord-server-summary">
+    <span id="voice-live" class="voice-pill">● CONNECTING</span>
+    <span id="voice-server" class="voice-pill">DISCORD SERVER</span>
+    <span id="voice-total" class="voice-pill">0 USERS IN VOICE</span>
+    <span id="members-online" class="voice-pill">0 ONLINE</span>
+  </div>
+
+  <div class="discord-layout">
+
+    <section class="discord-panel">
+      <div class="discord-panel-head">
+        <div>
+          <p class="lab">LIVE</p>
+          <h3>Voice Activity</h3>
+        </div>
+        <i class="fa-solid fa-headset"></i>
+      </div>
+
+      <div id="voice-channels" class="voice-grid">
+        <div class="card voice-state">
+          <i class="fa-solid fa-satellite-dish"></i>
+          Loading live voice activity...
+        </div>
+      </div>
+    </section>
+
+    <aside class="discord-panel members-panel">
+      <div class="discord-panel-head">
+        <div>
+          <p class="lab">SERVER</p>
+          <h3>Members</h3>
+        </div>
+        <i class="fa-solid fa-user-group"></i>
+      </div>
+
+      <div id="members-list" class="members-list">
+        <div class="members-state">
+          <i class="fa-solid fa-satellite-dish"></i>
+          <span>Loading server members...</span>
+        </div>
+      </div>
+
+      <div id="members-offline" class="members-offline">
+        OFFLINE — 0
+      </div>
+    </aside>
+
+  </div>`,
 
         projects: () =>
           head("Projects", "University work and personal experiments.") +
@@ -1276,10 +1581,10 @@
 
       updateDiscordPresence();
       setInterval(updateDiscordPresence, 30000);
-      document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) { updateDiscordPresence(); updateVoiceActivity(); }
-      });
+
       const voiceApi = C.profile.discordVoiceApi;
+      const membersApi = C.profile.discordMembersApi;
+      
       const esc = (value = "") => String(value).replace(/[&<>"']/g, (ch) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[ch]);
 
       const renderVoiceActivity = (payload) => {
@@ -1343,8 +1648,206 @@
         }
       };
 
+      const activityTypeLabel = {
+  0: "Playing",
+  1: "Streaming",
+  2: "Listening to",
+  3: "Watching",
+  5: "Competing in",
+};
+
+const activityIconClass = (type) => {
+  if (type === 2) return "fa-solid fa-headphones";
+  if (type === 1) return "fa-solid fa-tower-broadcast";
+  if (type === 3) return "fa-solid fa-eye";
+  return "fa-solid fa-gamepad";
+};
+
+const renderMembers = (payload) => {
+  const root = $("#members-list");
+  const online = $("#members-online");
+  const offline = $("#members-offline");
+
+  if (!root || !online || !offline) return;
+
+  const groups = Array.isArray(payload?.groups)
+    ? payload.groups
+    : [];
+
+  const onlineCount = Number(payload?.counts?.online || 0);
+  const offlineCount = Number(payload?.counts?.offline || 0);
+
+  online.textContent = `${onlineCount} ONLINE`;
+  offline.textContent = `OFFLINE — ${offlineCount}`;
+
+  if (!groups.length) {
+    root.innerHTML = `
+      <div class="members-state">
+        <i class="fa-solid fa-user-slash"></i>
+        <span>No members are online right now.</span>
+      </div>
+    `;
+    return;
+  }
+
+  root.innerHTML = groups
+    .map((group) => {
+      const members = Array.isArray(group.members)
+        ? group.members
+        : [];
+
+      const groupColor =
+        /^#[0-9a-f]{6}$/i.test(group.color || "")
+          ? group.color
+          : "#b5bac1";
+
+      return `
+        <section
+          class="member-group"
+          style="--group-color:${esc(groupColor)}"
+        >
+          <div class="member-group-title">
+            <span class="group-name">${esc(group.name || "ONLINE")}</span>
+            <span class="group-count">— ${members.length}</span>
+          </div>
+
+          ${members
+            .map((member) => {
+              const activity = Array.isArray(member.activities)
+                ? member.activities[0]
+                : null;
+
+              const roleColor =
+                /^#[0-9a-f]{6}$/i.test(member?.role?.color || "")
+                  ? member.role.color
+                  : "#e8edf5";
+
+              let activityHtml = "";
+
+              if (activity?.name) {
+                const type = Number(activity.type);
+                const label =
+                  activityTypeLabel[type] || "Using";
+
+                const detail = activity.details
+                  ? ` · ${esc(activity.details)}`
+                  : "";
+
+                activityHtml = `
+                  <small
+                    class="member-activity"
+                    title="${esc(
+                      [
+                        label,
+                        activity.name,
+                        activity.details,
+                        activity.state,
+                      ]
+                        .filter(Boolean)
+                        .join(" · "),
+                    )}"
+                  >
+                    <i class="${activityIconClass(type)}"></i>
+                    ${esc(label)} ${esc(activity.name)}${detail}
+                  </small>
+                `;
+              }
+
+              const safeStatus = ["online", "idle", "dnd"].includes(
+                member.status,
+              )
+                ? member.status
+                : "offline";
+
+              return `
+                <div
+                  class="server-member"
+                  style="--member-color:${esc(roleColor)}"
+                  title="@${esc(member.username || "")}"
+                >
+                  <div class="member-avatar-wrap">
+                    <img
+                      class="member-avatar"
+                      src="${esc(member.avatar || "")}"
+                      alt="${esc(member.name || member.username || "Discord member")} avatar"
+                      loading="lazy"
+                    />
+                    <span
+                      class="member-status ${safeStatus}"
+                      title="${safeStatus.toUpperCase()}"
+                    ></span>
+                  </div>
+
+                  <div class="member-copy">
+                    <strong class="member-name">
+                      ${esc(member.name || member.username || "Unknown")}
+                    </strong>
+                    ${activityHtml}
+                  </div>
+                </div>
+              `;
+            })
+            .join("")}
+        </section>
+      `;
+    })
+    .join("");
+};
+
+const setMembersUnavailable = () => {
+  const root = $("#members-list");
+  const online = $("#members-online");
+
+  if (online) {
+    online.textContent = "MEMBERS UNAVAILABLE";
+  }
+
+  if (root) {
+    root.innerHTML = `
+      <div class="members-state">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span>Server members are temporarily unavailable.</span>
+      </div>
+    `;
+  }
+};
+
+const updateDiscordMembers = async () => {
+  try {
+    const response = await fetch(membersApi, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Members API HTTP ${response.status}`);
+    }
+
+    const payload = await response.json();
+
+    if (!payload?.success) {
+      throw new Error("Invalid members API response");
+    }
+
+    renderMembers(payload);
+  } catch (error) {
+    console.warn("Discord members unavailable:", error);
+    setMembersUnavailable();
+  }
+};
+
       updateVoiceActivity();
+      updateDiscordMembers();
+
       setInterval(updateVoiceActivity, 15000);
+      setInterval(updateDiscordMembers, 30000);
+
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) {
+          updateDiscordPresence();
+          updateVoiceActivity();
+          updateDiscordMembers();
+        }
+      });
 
       let tt;
       const toast = (m) => {
