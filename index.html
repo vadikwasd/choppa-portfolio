@@ -1632,19 +1632,96 @@
           </article>`).join("");
       };
 
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      const fetchDiscordApi = async (url, label, attempts = 5) => {
+        let lastError;
+
+        for (let attempt = 1; attempt <= attempts; attempt++) {
+          try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 20000);
+
+            const response = await fetch(url, {
+              cache: "no-store",
+              signal: controller.signal,
+            });
+
+            clearTimeout(timeout);
+
+            if (!response.ok) {
+              throw new Error(`${label} API HTTP ${response.status}`);
+            }
+
+            const payload = await response.json();
+
+            if (!payload?.success) {
+              throw new Error(`Invalid ${label.toLowerCase()} API response`);
+            }
+
+            return payload;
+          } catch (error) {
+            lastError = error;
+
+            if (attempt < attempts) {
+              await sleep(attempt === 1 ? 3000 : 5000);
+            }
+          }
+        }
+
+        throw lastError;
+      };
+
+      let voiceRequestRunning = false;
+
+      const setVoiceWaking = () => {
+        const live = $("#voice-live");
+        const root = $("#voice-channels");
+
+        if (live) {
+          live.className = "voice-pill";
+          live.textContent = "● WAKING UP...";
+        }
+
+        if (root) {
+          root.innerHTML = `
+            <div class="card voice-state">
+              <i class="fa-solid fa-satellite-dish"></i>
+              Waking up Discord server...
+            </div>
+          `;
+        }
+      };
+
       const updateVoiceActivity = async () => {
+        if (voiceRequestRunning) return;
+        voiceRequestRunning = true;
+
         try {
-          const response = await fetch(voiceApi, { cache: "no-store" });
-          if (!response.ok) throw new Error(`Voice API HTTP ${response.status}`);
-          const payload = await response.json();
-          if (!payload?.success) throw new Error("Invalid voice API response");
+          setVoiceWaking();
+          const payload = await fetchDiscordApi(voiceApi, "Voice");
           renderVoiceActivity(payload);
         } catch (error) {
           console.warn("Discord voice activity unavailable:", error);
+
           const live = $("#voice-live");
           const root = $("#voice-channels");
-          if (live) { live.className = "voice-pill"; live.textContent = "● OFFLINE"; }
-          if (root) root.innerHTML = `<div class="card voice-state"><i class="fa-solid fa-triangle-exclamation"></i>Voice activity is temporarily unavailable.</div>`;
+
+          if (live) {
+            live.className = "voice-pill";
+            live.textContent = "● RETRYING";
+          }
+
+          if (root) {
+            root.innerHTML = `
+              <div class="card voice-state">
+                <i class="fa-solid fa-rotate"></i>
+                Discord server is still waking up. Retrying automatically...
+              </div>
+            `;
+          }
+        } finally {
+          voiceRequestRunning = false;
         }
       };
 
@@ -1794,44 +1871,67 @@ const renderMembers = (payload) => {
     .join("");
 };
 
-const setMembersUnavailable = () => {
+let membersRequestRunning = false;
+
+const setMembersWaking = () => {
   const root = $("#members-list");
   const online = $("#members-online");
+  const offline = $("#members-offline");
 
   if (online) {
-    online.textContent = "MEMBERS UNAVAILABLE";
+    online.textContent = "WAKING UP...";
+  }
+
+  if (offline) {
+    offline.textContent = "OFFLINE — ...";
   }
 
   if (root) {
     root.innerHTML = `
       <div class="members-state">
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        <span>Server members are temporarily unavailable.</span>
+        <i class="fa-solid fa-satellite-dish"></i>
+        <span>Waking up Discord server...</span>
+      </div>
+    `;
+  }
+};
+
+const setMembersRetrying = () => {
+  const root = $("#members-list");
+  const online = $("#members-online");
+  const offline = $("#members-offline");
+
+  if (online) {
+    online.textContent = "RETRYING...";
+  }
+
+  if (offline) {
+    offline.textContent = "OFFLINE — ...";
+  }
+
+  if (root) {
+    root.innerHTML = `
+      <div class="members-state">
+        <i class="fa-solid fa-rotate"></i>
+        <span>Discord server is still waking up. Retrying automatically...</span>
       </div>
     `;
   }
 };
 
 const updateDiscordMembers = async () => {
+  if (membersRequestRunning) return;
+  membersRequestRunning = true;
+
   try {
-    const response = await fetch(membersApi, {
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      throw new Error(`Members API HTTP ${response.status}`);
-    }
-
-    const payload = await response.json();
-
-    if (!payload?.success) {
-      throw new Error("Invalid members API response");
-    }
-
+    setMembersWaking();
+    const payload = await fetchDiscordApi(membersApi, "Members");
     renderMembers(payload);
   } catch (error) {
     console.warn("Discord members unavailable:", error);
-    setMembersUnavailable();
+    setMembersRetrying();
+  } finally {
+    membersRequestRunning = false;
   }
 };
 
@@ -1839,7 +1939,7 @@ const updateDiscordMembers = async () => {
       updateDiscordMembers();
 
       setInterval(updateVoiceActivity, 15000);
-      setInterval(updateDiscordMembers, 30000);
+      setInterval(updateDiscordMembers, 15000);
 
       document.addEventListener("visibilitychange", () => {
         if (!document.hidden) {
